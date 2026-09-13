@@ -1,0 +1,19 @@
+pkgname=souchastnik-linux
+pkgver=0.1.0
+pkgrel=1
+pkgdesc='Local text checker for law candidates and registry labels (Arch/CachyOS)'
+arch=('any')
+url='https://github.com/SakredBara/souchastnik-linux'
+license=('GPL-3.0-only')
+depends=('python')
+source=()
+sha256sums=()
+
+package() {
+  install -Dm755 "$srcdir/../souchastnik.py" "$pkgdir/usr/bin/souchastnik"
+  install -d "$pkgdir/usr/share/souchastnik/data"
+  install -Dm644 "$srcdir/../data/articles.json" "$pkgdir/usr/share/souchastnik/data/articles.json"
+  install -Dm644 "$srcdir/../data/triggers.json" "$pkgdir/usr/share/souchastnik/data/triggers.json"
+  install -Dm644 "$srcdir/../data/agents.json" "$pkgdir/usr/share/souchastnik/data/agents.json"
+  sed -i 's|BASE = Path(__file__).resolve().parent|BASE = Path("/usr/share/souchastnik")|' "$pkgdir/usr/bin/souchastnik"
+}
